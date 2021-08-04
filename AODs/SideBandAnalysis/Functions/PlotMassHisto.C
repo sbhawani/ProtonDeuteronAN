@@ -5,7 +5,7 @@
 
 TH2F* MassHisto(const char *PathAnalysisFile, int Addon) {
 
-  TString FileName = "FirstPtBinSideband.root";
+  TString FileName = "SecondPtBinSideband.root";
   TFile *FileData = TFile::Open(TString::Format("%s%s", PathAnalysisFile,FileName.Data()), "READ");
   TDirectoryFile *MyTaskDirectory1 = (TDirectoryFile*) (FileData->FindObjectAny(Form("HMDeuteronDCA%i", Addon)));
   TList *MyTaskList= (TList*) (MyTaskDirectory1->FindObjectAny(Form("HMDeuteronDCA%i", Addon)));
@@ -28,28 +28,28 @@ TH2F* MassHisto(const char *PathAnalysisFile, int Addon) {
 void PlotMassHisto() {
   TString PathtoFolder =
       "/home/sbhawani/cernbox/ProtonDeuteron/AnalysisResultsRootfiles/AODs/ResultsFromAODTrain/Data/SidebandStudy/SideBandStudyInPTBins/";
-  TString OutputdirName ="/home/sbhawani/cernbox/ProtonDeuteron/Outputs/AODs/SideBandAnalysis/SideBandStudyInPtBins/Version1.0/MassPlotVersion1.0/";
+  TString OutputdirName ="/home/sbhawani/cernbox/ProtonDeuteron/Outputs/AODs/SideBandAnalysis/SideBandStudyInPtBins/Version2.0/MassPlotVersion2.0/";
   TString Outputfilename = "MassHistoinPTBin_";
 
   TH2F *Signal = 0;
   TH2F *LSB = 0;
   TH2F *RSB = 0;
-  float pTRanges[6] = {0.0,1.5,2.0,2.5,3.2,4.05};
-  int MaxpTBin = 5;
+  float pTRanges[6] = {0.0,1.5,2.5,4.05};
+  int MaxpTBin = 3;
 
   for ( int pTBin = 0; pTBin < MaxpTBin; ++pTBin) {
         if(pTBin == 0) {
           Signal = MassHisto(PathtoFolder,0);
-          LSB = MassHisto(PathtoFolder,13);
-          RSB = MassHisto(PathtoFolder,14);
+          LSB = MassHisto(PathtoFolder,7);
+          RSB = MassHisto(PathtoFolder,8);
         } else if(pTBin == 1 ) {
           Signal =MassHisto(PathtoFolder,1);
-          LSB = MassHisto(PathtoFolder,5);
-          RSB = MassHisto(PathtoFolder,9);
+          LSB = MassHisto(PathtoFolder,3);
+          RSB = MassHisto(PathtoFolder,5);
         } else if(pTBin == 2 ) {
           Signal =MassHisto(PathtoFolder,2);
-          LSB = MassHisto(PathtoFolder,6);
-          RSB = MassHisto(PathtoFolder,10);
+          LSB = MassHisto(PathtoFolder,4);
+          RSB = MassHisto(PathtoFolder,6);
         } else if(pTBin == 3 ) {
           Signal =MassHisto(PathtoFolder,3);
           LSB = MassHisto(PathtoFolder,7);
@@ -61,8 +61,8 @@ void PlotMassHisto() {
         }
 
         TCanvas *cMassplot = new TCanvas("cMassplot", "cMassplot", 800, 600);
-        cMassplot->SetLeftMargin(0.1605);
-        cMassplot->SetRightMargin(0.0135);
+        cMassplot->SetLeftMargin(0.1405);
+        cMassplot->SetRightMargin(0.0235);
         cMassplot->SetTopMargin(0.105);
         cMassplot->SetBottomMargin(0.18);
         gStyle->SetOptStat(0);
@@ -96,7 +96,7 @@ void PlotMassHisto() {
         Signal->GetYaxis()->SetTitleSize(0.06);
         Signal->GetYaxis()->SetTitleOffset(1.0);
         Signal->GetYaxis()->SetTitle("#it{m}^{2}(GeV/c^{2})");
-        Signal->GetXaxis()->SetRangeUser(1.4, 4.05);
+        Signal->GetXaxis()->SetRangeUser(1.5, 4.1);
         Signal->GetYaxis()->SetRangeUser(2.4, 4.5);
 
       //  Signal->SetLineColorAlpha(kBlue, 1);

@@ -199,8 +199,8 @@ void EstimateDeuteronSBWeights(TString Name,TH2F *Mass2sqDataLSB,
   Double_t BinUpperEdge = Mass2sqDataLSB->GetXaxis()->GetBinLowEdge(35);
   PtRangeName = Form("%1.2f< #it{p}_{T} <%1.2f", BinLowerEdge, BinUpperEdge);
 
-  Mass2sqLSB = (TH1F*) (Mass2sqDataLSB->ProjectionY(Name.Data(), 10, 35));
-  Mass2sqRSB = (TH1F*) (Mass2sqDataRSB->ProjectionY(Name.Data(), 10, 35));
+  Mass2sqLSB = (TH1F*) Mass2sqDataLSB->ProjectionY("Mass2sqLSB", 10, 34);
+  Mass2sqRSB = (TH1F*) Mass2sqDataRSB->ProjectionY("Mass2sqRSB", 10, 34);
 
   double wLSB = 0;
   double wRSB =0;
@@ -209,8 +209,13 @@ void EstimateDeuteronSBWeights(TString Name,TH2F *Mass2sqDataLSB,
   double cRSB =0;
   double cTotal = 0;
 
-  cLSB = Mass2sqLSB->Integral(Mass2sqLSB->GetBin(2.85), Mass2sqLSB->GetBin(3.4));
-  cRSB = Mass2sqRSB->Integral(Mass2sqRSB->GetBin(3.775), Mass2sqRSB->GetBin(4.25));
+  //cLSB = Mass2sqLSB->Integral(Mass2sqLSB->GetBin(1.00), Mass2sqLSB->GetBin(3.4));
+  //cRSB = Mass2sqRSB->Integral(Mass2sqRSB->GetBin(3.6), Mass2sqRSB->GetBin(6.825));
+  cLSB = Mass2sqLSB->Integral(5, 700);
+  cRSB = Mass2sqRSB->Integral(5, 700);
+
+  //Mass2sqLSB->Draw("");
+//  Mass2sqDataRSB->Draw("");
   cTotal = cLSB+cRSB;
 
   wLSB = cLSB/cTotal;
